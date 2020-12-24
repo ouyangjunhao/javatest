@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongbao.dao.RedenvelopesDao">
+
+    <resultMap id="BaseResultMap" type="com.hongbao.entity.Redenvelopes">
+        <!--@Table redenvelopes-->
+        <result property="redenvelopesid" column="redenvelopesid" jdbcType="INTEGER"/>
+        <result property="money" column="money" jdbcType="NUMERIC"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="createtime" column="createtime" jdbcType="VARCHAR"/>
+        <result property="lifecycle" column="lifecycle" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          redenvelopesid, money, count, createtime, lifecycle
+        from t281.redenvelopes
+        where redenvelopesid = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          redenvelopesid, money, count, createtime, lifecycle
+        from t281.redenvelopes
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          redenvelopesid, money, count, createtime, lifecycle
+        from t281.redenvelopes
+        <where>
+            <if test="redenvelopesid != null">
+                and redenvelopesid = #{redenvelopesid}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="lifecycle != null">
+                and lifecycle = #{lifecycle}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into t281.redenvelopes(redenvelopesid, money, count, createtime, lifecycle)
+        values (#{redenvelopesid}, #{money}, #{count}, #{createtime}, #{lifecycle})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t281.redenvelopes
+        <set>
+            <if test="redenvelopesid != null">
+                redenvelopesid = #{redenvelopesid},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                createtime = #{createtime},
+            </if>
+            <if test="lifecycle != null">
+                lifecycle = #{lifecycle},
+            </if>
+        </set>
+        where redenvelopesid = #{redenvelopesid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t281.redenvelopes where redenvelopesid = #{id}
+    </delete>
+
+</mapper>
